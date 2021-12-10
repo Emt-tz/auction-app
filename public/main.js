@@ -73,7 +73,7 @@ function getAllItems() {
                 <div class="col-4">
                         <div class="card">
     
-                            <img class="card-img-top" src="https://bison-present-8080.codio-box.uk/uploads/${textedJson.items[i].img_src}" alt="Card image cap" style="object-fit: contain; width: 100%; height: 200px;">
+                            <img class="card-img-top" src="https://auction-deno-app.herokuapp.com/uploads/${textedJson.items[i].img_src}" alt="Card image cap" style="object-fit: contain; width: 100%; height: 200px;">
                             <div class="card-body">
                                 <h5 class="card-title">
                                     ${textedJson.items[i].item_name}
@@ -247,7 +247,7 @@ function getItems() {
                 <div class="col">
                         <div class="card">
     
-                            <img class="card-img-top" src="https://bison-present-8080.codio-box.uk/uploads/${textedJson.items[i].img_src}" alt="Card image cap" style="object-fit: contain; width: 100%; height: 200px;">
+                            <img class="card-img-top" src="https://auction-deno-app.herokuapp.com/uploads/${textedJson.items[i].img_src}" alt="Card image cap" style="object-fit: contain; width: 100%; height: 200px;">
                             <div class="card-body">
                                 <h5 class="card-title">
                                     ${textedJson.items[i].item_name}
@@ -313,7 +313,7 @@ function getItemDetails() {
             <div class="col-12">
                 <div class="card">
 
-                    <img class="card-img-top" src="https://bison-present-8080.codio-box.uk/uploads/${data.items.itemdetails[0].item_name}" alt="Card image cap" style="object-fit: contain; width: 100%; height: 350px;">
+                    <img class="card-img-top" src="https://auction-deno-app.herokuapp.com/uploads/${data.items.itemdetails[0].item_name}" alt="Card image cap" style="object-fit: contain; width: 100%; height: 350px;">
                     <div class="card-body">
                         <h5 class="card-title">
                             ${data.items.itemdetails[0].item_name}
