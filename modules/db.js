@@ -19,11 +19,11 @@ const connectionData = {
     //     db: 'auction'
     // }
     '/app': {
-        hostname: 'sql4.freemysqlhosting.net',
-        username: 'sql4455968',
-        password: 'zyAGaM9PYx',
-        db: 'sql4455968',
-        poolSize: 3
+        hostname: 'us-cdbr-east-05.cleardb.net',
+    username: 'b827d817e0a819',
+    password: 'b5f9a2e6',
+    db: 'heroku_d47788496bf122c',
+    poolSize: 3
     }
 }
 
@@ -32,10 +32,10 @@ console.log(conn)
 
 //const db = await new Client().connect(conn)
 const db = await new Client().connect({
-    hostname: 'sql4.freemysqlhosting.net',
-    username: 'sql4455968',
-    password: 'zyAGaM9PYx',
-    db: 'sql4455968',
+    hostname: 'us-cdbr-east-05.cleardb.net',
+    username: 'b827d817e0a819',
+    password: 'b5f9a2e6',
+    db: 'heroku_d47788496bf122c',
     poolSize: 3
 });
 
