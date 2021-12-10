@@ -1,0 +1,246 @@
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>
+        SAP | API
+
+    </title>
+    <!-- Bootstrap CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <!-- Our Custom CSS -->
+<!--     <link rel="stylesheet" href="{{host}}/dashboard.css"> -->
+    <link rel="stylesheet" href="{{host}}/style.css">
+   
+</head>
+
+<body id="body-pd">
+   
+    <header class="header" id="header">
+        <div class="header_toggle"> <i class='bx bx-menu' id="header-toggle"></i> </div>
+    </header>
+  
+    <div class="l-navbar" id="nav-bar">
+        <nav class="nav">
+            <div>
+                <a href="home" class="nav_logo"> <i class='bx bx-layer nav_logo-icon'></i> <span class="nav_logo-name">AUCTION API</span> </a>
+                <div class="nav_list">
+                    {{!-- <a href="/api#user" class="nav_link"> <i class='bx bx-home nav_icon'></i>
+                        <span class="nav_name">Home</span> </a> --}}
+                          <a href="#itemdetails" class="nav_link"> <i class='bx bx-info-circle nav_icon '></i> <span class="nav_name">Item Details</span> </a>
+                   
+                    <!-- <a href="#register" class="nav_link"> <i class='bx bx-user nav_icon'></i>
+                        <span class="nav_name">Register user</span> </a> -->
+                    {{!-- <a href="#sell" class="nav_link"> <i class='bx bx-grid-alt nav_icon'></i>
+                        <span class="nav_name">Sell New Item</span> </a>
+                    <a href="#myItems" class="nav_link"> <i class='bx bx-user nav_icon'></i> <span class="nav_name">My
+                            items</span> </a>
+                   <a href="#biditem" class="nav_link"> <i class='bx bxs-hand nav_icon '></i> <span class="nav_name">Bid Item</span> </a>
+                     <a href="#results" class="nav_link"> <i class='bx bx-wink-smile nav_icon '></i> <span class="nav_name">Results</span> </a>
+                    <a href="login" class="nav_link"> <i class='bx bx-log-out-circle nav_icon'></i> <span class="nav_name">Logout</span> </a> --}}
+                </div>
+            </div>
+        </nav>
+    </div>
+   {{#if authorised}}
+    <input id="userid" value={{authorised}}>
+    </input>
+    {{/if}}
+    <br>
+    <div class="container">
+        
+        <div class="main-content" id="itemdetailsui">
+
+        </div>
+    </div>
+
+    <!-- end of our routes script is placed here-->
+    <script>
+        getItemDetails();
+        function sendBid() {
+    const params = Object.fromEntries(new URLSearchParams(window.location.search))
+    let bid_amount = document.getElementById("inputAmount").value;
+    let textarea = document.getElementById("jsonresult");
+    let url = `/api/bid?name=${params.item}&bid=${bid_amount}`
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            //load the json on the text area
+            var textedJson = JSON.stringify(data, undefined, 4);
+           alert(textedJson);
+
+        })
+}
+        function showbidpage(){
+            let bidpage = `
+             <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                              <h5>Bid items</h5>
+<p style="color: rgb(206, 206, 206)">
+    default key is used
+</p>
+<form class="row g-3" action="/sell" enctype="multipart/form-data" method="post">
+
+    <div class="col-md-12">
+        <label for="inputName" class="form-label">Amount</label>
+        <input name="name" type="text " class="form-control" id="inputAmount" />
+    </div>
+    <div class="col-md-12 text-center">
+        <a  class="btn btn-primary" style="margin-top:30px;" onclick="sendBid();">Submit</a>
+    </div>
+</div>
+</div>
+</div>
+</form>             </div>
+                </div>
+            </div>
+        </div>
+      `;
+    document.getElementById("showbidpage").innerHTML = bidpage;
+        }
+    function getItemDetails() {
+    let detailsui = document.getElementById("itemdetailsui");
+    const params = Object.fromEntries(new URLSearchParams(window.location.search))
+    let url = `/api/itemdetails?name=${params.id}`
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            //load the json on the text area
+            var textedJson = JSON.stringify(data, undefined, 4);
+            let ui = `<div class="row">
+            <div class="col-12">
+                <div class="card">
+
+                    <img class="card-img-top" src="https://bison-present-8080.codio-box.uk/uploads/${data.items.itemdetails[0].img_src}" alt="Card image cap" style="object-fit: contain; width: 100%; height: 350px;">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            ${data.items.itemdetails[0].item_name}
+                        </h5>
+                        <p class="card-subtitle mb-2 text-muted">
+                        ${data.items.itemdetails[0].date}
+                        </p>
+                    </div>
+                    <div class="text-center">
+                        <a href="#">
+                            <button class="btn btn-primary placebidbtn" data-toggle="modal" onclick="showbidpage();">Place bid</button>
+                        </a>
+                    </div>
+                    <br>
+                </div>
+            </div>
+        </div>
+        <div>
+        </div>
+        <br>
+        <div id="showbidpage" class="text-center">
+
+            </div>
+        <br>
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Details</h5>
+
+                        <p class="card-text">
+                        ${data.items.itemdetails[0].item_description}
+                        </p>
+                        <!-- <h5 class="card-title">Item name</h5>
+        <p class="card-text">Date item added</p>
+
+        <p class="card-text" style="position:absolute;right: 0px;padding-right:10px;">Seller username
+        </p> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+
+                    <div class="card-body">
+                        <h5 class="card-title">Contacts</h5>
+                        <div class="line">
+
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <a href="#">
+                                    <button class="btn btn-light infobtn"><i class='bx bx-phone' id="header-toggle"> </i> &nbsp;
+                                    ${data.items.contact}</button>
+                                </a>
+                            </div>
+                            <div class="col">
+                                <a href="#">
+                                    <button class="btn btn-light infobtn"><i class='bx bx-mail-send' id="header-toggle"> </i> &nbsp;${data.items.email}</button>
+                                </a>
+                            </div>
+                            <div class="col">
+                                <a href="#">
+                                    <button class="btn btn-light infobtn"><i class='bx bx-user' id="header-toggle"> </i> &nbsp;
+                                    ${data.items.seller}</button>
+                                </a>
+                            </div>
+                        </div>
+                    <br>
+                </div>
+            </div>
+        </div>
+
+        
+`;
+            detailsui.innerHTML = ui;
+            textarea.innerHTML = textedJson;
+        })
+
+};
+    </script>
+     <script>
+        const wrapper = document.querySelector(".wrapper");
+        const fileName = document.querySelector(".file-name");
+        const defaultBtn = document.querySelector("#default-btn");
+        const customBtn = document.querySelector("#custom-btn");
+        const cancelBtn = document.querySelector("#cancel-btn i");
+        const img = document.querySelector("img");
+        let regExp = /[0-9a-zA-Z\^\&\'\@\{\}\[\]\,\$\=\!\-\#\(\)\.\%\+\~\_ ]+$/;
+
+        function defaultBtnActive() {
+            defaultBtn.click();
+        }
+        defaultBtn.addEventListener("change", function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function() {
+                    const result = reader.result;
+                    img.src = result;
+                    wrapper.classList.add("active");
+                }
+                cancelBtn.addEventListener("click", function() {
+                    img.src = "";
+                    wrapper.classList.remove("active");
+                })
+                reader.readAsDataURL(file);
+            }
+            if (this.value) {
+                let valueStore = this.value.match(regExp);
+                fileName.textContent = valueStore;
+            }
+        });
+    </script>
+    <script src=" https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js " integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj " crossorigin="anonymous ">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js " integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF " crossorigin="anonymous ">
+    </script>
+
+</body>
+</html>

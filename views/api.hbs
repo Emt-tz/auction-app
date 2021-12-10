@@ -1,0 +1,132 @@
+<!doctype html>
+
+<!-- <html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Home Page</title>
+		<meta name="description" content="form to add new books">
+		<meta name="author" content="Mark Tyers">
+		<link href="{{host}}/style.css" type="text/css" rel="stylesheet" />
+		<script type="module" src="/main.js"></script>
+	</head>
+	<body>
+		<header>
+		<h1>Foo Bar</h1>
+		<a href="/logout">Log out</a>
+		</header>
+		<main>
+		{{#if auth}}
+			<p>Logged in as <strong>{{auth}}</strong></p>
+		{{/if}}
+		  <p><a href="/">Home page</a></p>
+		</main>
+	</body>
+</html>
+ -->
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>
+        SAP | API
+
+    </title>
+    <!-- Bootstrap CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <!-- Our Custom CSS -->
+<!--     <link rel="stylesheet" href="{{host}}/dashboard.css"> -->
+    <link rel="stylesheet" href="{{host}}/style.css">
+   
+</head>
+
+<body id="body-pd">
+   
+    <header class="header" id="header">
+        <div class="header_toggle"> <i class='bx bx-menu' id="header-toggle"></i> </div>
+    </header>
+  
+    <div class="l-navbar" id="nav-bar">
+        <nav class="nav">
+            <div>
+                <a href="home" class="nav_logo"> <i class='bx bx-layer nav_logo-icon'></i> <span class="nav_logo-name">AUCTION API</span> </a>
+                <div class="nav_list">
+                    <a href="#user" class="nav_link"> <i class='bx bx-home nav_icon'></i>
+                        <span class="nav_name">Home</span> </a>
+                    <!-- <a href="#register" class="nav_link"> <i class='bx bx-user nav_icon'></i>
+                        <span class="nav_name">Register user</span> </a> -->
+                    <a href="#sell" class="nav_link"> <i class='bx bx-grid-alt nav_icon'></i>
+                        <span class="nav_name">Sell New Item</span> </a>
+                    <a href="#myItems" class="nav_link"> <i class='bx bx-user nav_icon'></i> <span class="nav_name">My
+                            items</span> </a>
+                    {{!-- <a href="#itemdetails" class="nav_link"> <i class='bx bx-info-circle nav_icon '></i> <span class="nav_name">Item Details</span> </a> --}}
+                    {{!-- <a href="#biditem" class="nav_link"> <i class='bx bxs-hand nav_icon '></i> <span class="nav_name">Bid Item</span> </a> --}}
+                     <a href="#results" class="nav_link"> <i class='bx bx-wink-smile nav_icon '></i> <span class="nav_name">Results</span> </a>
+                    <a href="login" class="nav_link"> <i class='bx bx-log-out-circle nav_icon'></i> <span class="nav_name">Logout</span> </a>
+                </div>
+            </div>
+        </nav>
+    </div>
+   {{#if authorised}}
+    <input id="userid" value={{authorised}} hidden>
+    </input>
+    {{/if}}
+    <br>
+    <div class="container">
+        
+        <div class="main-content" id="main-content">
+
+        </div>
+    </div>
+
+    <!-- end of our routes script is placed here-->
+    
+    <script typ="module" src="/main.js">
+    </script>
+    
+    <script>
+        const wrapper = document.querySelector(".wrapper");
+        const fileName = document.querySelector(".file-name");
+        const defaultBtn = document.querySelector("#default-btn");
+        const customBtn = document.querySelector("#custom-btn");
+        const cancelBtn = document.querySelector("#cancel-btn i");
+        const img = document.querySelector("img");
+        let regExp = /[0-9a-zA-Z\^\&\'\@\{\}\[\]\,\$\=\!\-\#\(\)\.\%\+\~\_ ]+$/;
+
+        function defaultBtnActive() {
+            defaultBtn.click();
+        }
+        defaultBtn.addEventListener("change", function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function() {
+                    const result = reader.result;
+                    img.src = result;
+                    wrapper.classList.add("active");
+                }
+                cancelBtn.addEventListener("click", function() {
+                    img.src = "";
+                    wrapper.classList.remove("active");
+                })
+                reader.readAsDataURL(file);
+            }
+            if (this.value) {
+                let valueStore = this.value.match(regExp);
+                fileName.textContent = valueStore;
+            }
+        });
+    </script>
+     
+    <script src=" https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js " integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj " crossorigin="anonymous ">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js " integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF " crossorigin="anonymous ">
+    </script>
+
+</body>
+</html>
